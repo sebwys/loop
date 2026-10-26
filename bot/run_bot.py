@@ -4,8 +4,15 @@
 import importlib
 import pkgutil
 import sys
+import time
 
 from bot import collectors as collectors_pkg
+
+# a source that is down for a few minutes, like bls answering 503 on the
+# october 2026 run, outlasts the backoff in fetch() and used to throw away the
+# whole monthly run. a collector that raised gets one more turn this long after
+# the first pass
+RETRY_PAUSE = 300
 
 
 # every module in bot/collectors with a collect() runs. gazetteer goes first
@@ -42,11 +49,25 @@ def main(only=None):
         collectors = [(name, collect) for name, collect in collectors if name in wanted]
         failures = [name for name in failures if name in wanted]
 
+    raised = []
     for name, collect in collectors:
         try:
             collect()
         except Exception as e:
             print(f"[{name}] FAILED {type(e).__name__}: {e}")
+            raised.append((name, collect))
+
+    # a module that would not import fails the same way the second time, so
+    # only the ones that raised are tried again
+    if raised:
+        print(f"trying {[name for name, _ in raised]} again in {RETRY_PAUSE}s")
+        time.sleep(RETRY_PAUSE)
+    for name, collect in raised:
+        try:
+            collect()
+            print(f"[{name}] ok on the second try")
+        except Exception as e:
+            print(f"[{name}] FAILED again {type(e).__name__}: {e}")
             failures.append(name)
 
     # the build reads the gazetteer's year, so importing it at the top of this

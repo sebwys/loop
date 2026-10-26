@@ -13,18 +13,23 @@ from bot import build_map_data, run_bot
 NAMES = ["gazetteer", "acs", "bps", "fred"]
 
 
-def module_that_collects(recorder, name, failing):
+# failing raises on every call, flaky only on the first
+def module_that_collects(recorder, name, failing, flaky=()):
     def collect():
         recorder.append(name)
-        if name in failing:
+        if name in failing or (name in flaky and recorder.count(name) == 1):
             raise RuntimeError("the api said no")
 
     return types.SimpleNamespace(collect=collect)
 
 
 class RunBotCase(unittest.TestCase):
-    def run_main(self, broken=(), failing=(), only=None):
-        ran, built = [], []
+    def run_main(self, broken=(), failing=(), flaky=(), only=None):
+        ran, built, slept = [], [], []
+
+        def build():
+            built.append(True)
+            self.ran_before_build = list(ran)
 
         def iter_modules(path):
             return [types.SimpleNamespace(name=name) for name in NAMES]
@@ -33,18 +38,20 @@ class RunBotCase(unittest.TestCase):
             name = dotted.rsplit(".", 1)[-1]
             if name in broken:
                 raise ImportError(f"cannot import {name}")
-            return module_that_collects(ran, name, failing)
+            return module_that_collects(ran, name, failing, flaky)
 
         out = io.StringIO()
         with mock.patch.object(run_bot.pkgutil, "iter_modules", iter_modules), \
              mock.patch.object(run_bot.importlib, "import_module", import_module), \
-             mock.patch.object(build_map_data, "build", lambda: built.append(True)):
+             mock.patch.object(run_bot.time, "sleep", slept.append), \
+             mock.patch.object(build_map_data, "build", build):
             code = 0
             try:
                 with redirect_stdout(out):
                     run_bot.main(only)
             except SystemExit as exit_error:
                 code = exit_error.code
+        self.slept = slept
         return ran, built, code, out.getvalue()
 
 
@@ -67,7 +74,7 @@ class TestOneBrokenCollector(RunBotCase):
 
     def test_a_collector_that_raises_is_reported_the_same_way(self):
         ran, built, code, printed = self.run_main(failing={"acs"})
-        self.assertEqual(ran, NAMES)
+        self.assertEqual(ran, NAMES + ["acs"])
         self.assertEqual(built, [True])
         self.assertNotEqual(code, 0)
         self.assertIn("acs", printed)
@@ -78,6 +85,41 @@ class TestOneBrokenCollector(RunBotCase):
         self.assertEqual(ran[0], "gazetteer")
         self.assertEqual(built, [True])
         self.assertEqual(code, 0)
+
+
+# bls answered 503 on the first query of the october 2026 run and the hour of
+# data the other collectors had gathered was thrown away with it
+class TestASecondTry(RunBotCase):
+    def test_a_source_that_comes_back_does_not_fail_the_run(self):
+        ran, built, code, printed = self.run_main(flaky={"acs"})
+        self.assertEqual(ran, NAMES + ["acs"])
+        self.assertEqual(built, [True])
+        self.assertEqual(code, 0)
+        self.assertEqual(self.slept, [run_bot.RETRY_PAUSE])
+        self.assertIn("[acs] ok on the second try", printed)
+
+    # the map is built from what the second try fetched, not from last month's
+    def test_the_second_try_comes_before_the_map_build(self):
+        ran, _, _, _ = self.run_main(flaky={"acs"})
+        self.assertEqual(self.ran_before_build, ran)
+
+    def test_a_source_still_down_is_tried_once_more_and_fails(self):
+        ran, built, code, printed = self.run_main(failing={"acs", "fred"})
+        self.assertEqual(ran, NAMES + ["acs", "fred"])
+        self.assertEqual(built, [True])
+        self.assertNotEqual(code, 0)
+        self.assertEqual(self.slept, [run_bot.RETRY_PAUSE])
+        self.assertIn("collectors failed: ['acs', 'fred']", printed)
+
+    def test_a_module_that_will_not_import_is_not_tried_again(self):
+        ran, built, code, _ = self.run_main(broken={"bps"})
+        self.assertEqual(ran, ["gazetteer", "acs", "fred"])
+        self.assertEqual(self.slept, [])
+        self.assertNotEqual(code, 0)
+
+    def test_a_clean_run_does_not_wait(self):
+        self.run_main()
+        self.assertEqual(self.slept, [])
 
 
 # the national strip is fred, which publishes daily, so it refreshes on its own

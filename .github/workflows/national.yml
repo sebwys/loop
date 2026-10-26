@@ -28,10 +28,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      # python holds its output until exit when it is not on a terminal, so
+      # every collector line in the log carried the same timestamp
+      PYTHONUNBUFFERED: "1"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -80,14 +83,14 @@ jobs:
       # only record of what the committed map was built on
       - name: commit the refresh
         id: commit
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "bot: national strip refresh"
           file_pattern: "data/raw/national data/raw/fred data/raw/zillow/download_manifest.json web/public/data"
 
       # the worker serves the built assets, so new numbers are only live after a
       # deploy. without the token the run still commits and says what is missing
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         if: (steps.commit.outputs.changes_detected == 'true' || inputs.publish) && env.CLOUDFLARE_API_TOKEN != ''
         with:
           node-version: "22"

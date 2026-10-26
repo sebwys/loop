@@ -28,10 +28,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      # python holds its output until exit when it is not on a terminal, so
+      # every collector line in the log carried the same timestamp
+      PYTHONUNBUFFERED: "1"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -77,7 +80,7 @@ jobs:
       # commits only if the previous steps passed, with the actions bot identity
       - name: commit the refresh
         id: commit
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "bot: monthly data refresh"
           # .gitignore keeps the files we fetch but do not redistribute out of
@@ -86,7 +89,7 @@ jobs:
 
       # same publish as the national strip workflow: the worker serves built
       # assets, so committed numbers are not live until a deploy runs
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         if: (steps.commit.outputs.changes_detected == 'true' || inputs.publish) && env.CLOUDFLARE_API_TOKEN != ''
         with:
           node-version: "22"
