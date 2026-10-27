@@ -82,7 +82,7 @@
       "dataset": "CAINC1 line 1, bea_personal_income, every county"
     },
     "integrity": {
-      "sha256": "4abdf373acf086f481e1982aca66e97d16de707f6b787a046199ee51b430b1c9",
+      "sha256": "746d126837adf58dfa02d2733b890822e4749836fbe0a7f9a5fd5238c8227a89",
       "size_kb": 5200.2,
       "row_count": 34639
     },
@@ -109,7 +109,7 @@
       "dataset": "CAINC1 line 2, bea_population, every county"
     },
     "integrity": {
-      "sha256": "ebbf5c54cbe9bc263e626fdacecbce9e34647e5df72459ba42e7957025965a6c",
+      "sha256": "eb54f70121cf2575c15000749b9e95f2fdee674619dd3549266903fdadf55c64",
       "size_kb": 5504.1,
       "row_count": 34639
     },
