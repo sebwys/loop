@@ -878,3 +878,21 @@ class TestStableRawFile(unittest.TestCase):
         self.assertNotIn("UTCProductionTime", trimmed["BEAAPI"]["Results"])
         self.assertEqual(len(trimmed["BEAAPI"]["Results"]["Data"]), 1)
         self.assertIn("UTCProductionTime", payload["BEAAPI"]["Results"])  # the input is untouched
+
+    # the october 2026 runs got the same 34639 rows back in two orders
+    def test_the_same_rows_in_another_order_write_the_same_file(self):
+        rows = [{"GeoFips": fips, "TimePeriod": year, "DataValue": value}
+                for fips, year, value in [("48441", "2024", "3"), ("01001", "2014", "1"),
+                                          ("48441", "2014", "2"), ("01001", "2024", "4")]]
+        trims = [bea.trim_payload({"BEAAPI": {"Request": {}, "Results": {"Data": order}}}, [2014, 2024])
+                 for order in (rows, rows[::-1], rows[1:] + rows[:1])]
+        written = {json.dumps(trim, separators=(",", ":")) for trim in trims}
+        self.assertEqual(len(written), 1)
+
+    def test_a_repeated_county_and_year_keeps_its_order(self):
+        rows = [{"GeoFips": "48441", "TimePeriod": "2024", "DataValue": "first"},
+                {"GeoFips": "01001", "TimePeriod": "2024", "DataValue": "1"},
+                {"GeoFips": "48441", "TimePeriod": "2024", "DataValue": "second"}]
+        kept = bea.trim_payload({"BEAAPI": {"Request": {}, "Results": {"Data": rows}}}, [2024])
+        values = [r["DataValue"] for r in kept["BEAAPI"]["Results"]["Data"] if r["GeoFips"] == "48441"]
+        self.assertEqual(values, ["first", "second"])

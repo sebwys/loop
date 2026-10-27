@@ -281,6 +281,11 @@ def trim_payload(payload, years):
     trimmed = copy.deepcopy(payload)
     block = results(trimmed)
     block["Data"] = [row for row in data_rows(block) if period_year(row.get("TimePeriod")) in keep]
+    # bea hands the same rows back in a different order from one call to the
+    # next, which committed the file and redeployed the map with no data
+    # change. the sort is stable, so a repeated county and year keeps the
+    # first value parse_counties keeps
+    block["Data"].sort(key=lambda row: (str(row.get("GeoFips", "")), str(row.get("TimePeriod", ""))))
     # the production stamp changes on every response and would commit the file
     # again every month with no data change
     block.pop("UTCProductionTime", None)
