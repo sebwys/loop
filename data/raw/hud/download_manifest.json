@@ -14,7 +14,7 @@
       "row_count": 2452
     },
     "version": "fmr through 2027, income limits through 2026, 199 metros built from hud fmr areas",
-    "downloaded_at": "2026-10-27T00:16:22Z",
+    "downloaded_at": "2026-10-27T02:26:50Z",
     "notes": {
       "income_limits_endpoint": "https://www.huduser.gov/hudapi/public/il/data/{entityid}?year={year}",
       "metro_list": "https://www.huduser.gov/hudapi/public/fmr/listMetroAreas",
@@ -1597,7 +1597,7 @@
       "row_count": 897
     },
     "version": "2019",
-    "downloaded_at": "2026-10-27T00:16:22Z"
+    "downloaded_at": "2026-10-27T02:26:50Z"
   },
   {
     "filename": "hud_2024.json",
@@ -1614,7 +1614,7 @@
       "row_count": 905
     },
     "version": "2024",
-    "downloaded_at": "2026-10-27T00:16:22Z"
+    "downloaded_at": "2026-10-27T02:26:50Z"
   },
   {
     "filename": "hud_2026.json",
@@ -1631,7 +1631,7 @@
       "row_count": 700
     },
     "version": "2026",
-    "downloaded_at": "2026-10-27T00:16:22Z"
+    "downloaded_at": "2026-10-27T02:26:50Z"
   },
   {
     "filename": "hud_2027.json",
@@ -1648,6 +1648,6 @@
       "row_count": 263
     },
     "version": "2027",
-    "downloaded_at": "2026-10-27T00:16:22Z"
+    "downloaded_at": "2026-10-27T02:26:50Z"
   }
 ]
