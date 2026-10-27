@@ -9,19 +9,19 @@
       "dataset": "Inventory core metrics, metro history: monthly listing price, active listings, days on market and price reductions, summarized to annual means and the newest month"
     },
     "integrity": {
-      "sha256": "2bb86ffded6cd2b8fddf459630e792b3b8bfd8e041fd1f1acf4b10437b740839",
+      "sha256": "404a6d5015d1085e108abe6ec696b9d153f388eb48833484d47e4197856fc1b5",
       "size_kb": 1354.1,
       "row_count": 37000
     },
-    "version": "through 2026-08",
-    "downloaded_at": "2026-09-15T19:54:01Z",
+    "version": "through 2026-09",
+    "downloaded_at": "2026-10-27T00:16:47Z",
     "notes": {
       "attribution": "Realtor.com Economic Research, realtor.com/research/data",
       "source_file": "RDC_Inventory_Core_Metrics_Metro_History.csv",
-      "source_sha256": "768a2510292da5e45cc5dde56aace1a4aad807d2eead1df639bfca56ff8940e3",
-      "source_size_kb": 32423.6,
-      "source_rows": 112850,
-      "source_newest_month": "2026-08",
+      "source_sha256": "153584397fa5e167e421f7f46a763631b4929668e2080ff99c9d55750f5a6348",
+      "source_size_kb": 32707.1,
+      "source_rows": 113775,
+      "source_newest_month": "2026-09",
       "full_years": [
         2017,
         2018,
@@ -33,7 +33,7 @@
         2024,
         2025
       ],
-      "quality_flagged_rows": 14128,
+      "quality_flagged_rows": 14226,
       "metrics": {
         "median_listing_price": "median_listing_price as published",
         "active_listings": "active_listing_count as published",

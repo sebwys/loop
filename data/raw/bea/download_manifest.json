@@ -14,7 +14,7 @@
       "row_count": 31716
     },
     "version": "CAINC1 county rollup, 2014 through 2024",
-    "downloaded_at": "2026-09-25T14:37:08Z",
+    "downloaded_at": "2026-10-26T23:26:35Z",
     "notes": {
       "metrics": {
         "bea_personal_income": {
@@ -82,12 +82,12 @@
       "dataset": "CAINC1 line 1, bea_personal_income, every county"
     },
     "integrity": {
-      "sha256": "679f791da3f7977c696887be9ea54676aba80bb42fe98b2c157570abcbfedbfd",
+      "sha256": "8f2d02284fb9932da9e34ba0cd0711a124ae1f96979e6c8479367e63d52d856c",
       "size_kb": 5200.2,
       "row_count": 34639
     },
     "version": "CAINC1 line 1 through 2024",
-    "downloaded_at": "2026-09-25T14:37:09Z",
+    "downloaded_at": "2026-10-26T23:26:35Z",
     "notes": {
       "metric": "bea_personal_income",
       "unit": "Thousands of dollars",
@@ -109,12 +109,12 @@
       "dataset": "CAINC1 line 2, bea_population, every county"
     },
     "integrity": {
-      "sha256": "2f5a0aacd1d11e7dd2e13b9660381f9e039152bd272347062ae8eef10961b0fc",
+      "sha256": "5c509020d2ddb7888ee52da5525e8269e4486e3ace0c2e0a9e5a425362ffd539",
       "size_kb": 5504.1,
       "row_count": 34639
     },
     "version": "CAINC1 line 2 through 2024",
-    "downloaded_at": "2026-09-25T14:37:09Z",
+    "downloaded_at": "2026-10-26T23:26:36Z",
     "notes": {
       "metric": "bea_population",
       "unit": "Number of persons",
