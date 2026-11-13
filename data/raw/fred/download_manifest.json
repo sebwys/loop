@@ -9,11 +9,11 @@
       "dataset": "30-year fixed rate mortgage average in the United States, weekly"
     },
     "integrity": {
-      "sha256": "29551c1a6fd8828459dd7d915450797278b0e23e7c53d6c1675b6c7767f8bf7a",
+      "sha256": "d09fc30532423b9dac4673304b2865686515e9722df650117473fecdb30c6f36",
       "size_kb": 45.6,
-      "row_count": 2902
+      "row_count": 2903
     },
-    "version": "through 2026-11-05",
-    "downloaded_at": "2026-11-06T01:47:40Z"
+    "version": "through 2026-11-12",
+    "downloaded_at": "2026-11-13T02:07:45Z"
   }
 ]
