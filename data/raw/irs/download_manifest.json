@@ -3,18 +3,18 @@
     "filename": "metrics.csv",
     "file_format": "CSV",
     "source": {
-      "endpoint": "https://www.irs.gov/pub/irs-soi/countyinflow2223.csv",
+      "endpoint": "https://www.irs.gov/pub/irs-soi/countyinflow2324.csv",
       "provider": "Internal Revenue Service, Statistics of Income",
       "access_method": "Direct HTTP download",
       "dataset": "county to county migration, total us in and out migration per county summed to cbsa and metropolitan division codes"
     },
     "integrity": {
-      "sha256": "72e238ccaa94f7c1b596b704d4f792f0fd72325c3237bc621cd61f19b4f11ab7",
-      "size_kb": 1283.7,
-      "row_count": 38448
+      "sha256": "7ebdfd1439de782d8a93ce0771104fcf6fcd0756c9974103377de8d0a82cd6e3",
+      "size_kb": 1411.9,
+      "row_count": 42296
     },
-    "version": "through 2022-2023",
-    "downloaded_at": "2026-09-30T01:23:43Z",
+    "version": "through 2023-2024",
+    "downloaded_at": "2026-11-25T20:05:17Z",
     "notes": {
       "summary_row": "partner state 97 with county 0, Total Migration-US, per county",
       "rule": "a county counts in a year only when both its inflow and outflow totals are present and not suppressed (-1), counties sum to their cbsa and, inside a division, to that division too",
@@ -167,6 +167,20 @@
           "sha256": "364dba518f0db092515ccde03dda987815f6e54bcc8859640001e9185d4c106e",
           "size_kb": 4477.0,
           "row_count": 90358
+        },
+        {
+          "filename": "countyinflow2324.csv",
+          "endpoint": "https://www.irs.gov/pub/irs-soi/countyinflow2324.csv",
+          "sha256": "6b92738f43c96fe8c773486d0afb4dcb744e3e78456d499fc7bc7dea17c10b1b",
+          "size_kb": 4400.9,
+          "row_count": 88525
+        },
+        {
+          "filename": "countyoutflow2324.csv",
+          "endpoint": "https://www.irs.gov/pub/irs-soi/countyoutflow2324.csv",
+          "sha256": "1c9b2addef8c29b1b475dfdba8c7311448c9d52ffba73e4954f8c06f1b0b909e",
+          "size_kb": 4414.6,
+          "row_count": 88876
         }
       ]
     }

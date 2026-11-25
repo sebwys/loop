@@ -9,12 +9,12 @@
       "dataset": "national indicators for the map's dashboard strip, one row per series and observation"
     },
     "integrity": {
-      "sha256": "5c5c7159e9dcd98e39d9a84e260c1e14a057476307ba68adefe24fff4fc823f0",
-      "size_kb": 262.4,
-      "row_count": 10675
+      "sha256": "45f58800c586efd33a60dfe9c58e0914f350d7926a866be1dc2d8a6b30dce846",
+      "size_kb": 262.5,
+      "row_count": 10677
     },
-    "version": "through 2026-11-24",
-    "downloaded_at": "2026-11-25T04:34:26Z",
+    "version": "through 2026-11-25",
+    "downloaded_at": "2026-11-25T20:05:22Z",
     "notes": {
       "series": [
         "CPIAUCSL",
